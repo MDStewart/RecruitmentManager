@@ -1,0 +1,21 @@
+﻿@page "/job-board"
+@rendermode InteractiveServer
+@using RecruitmentManager.Models
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+@inject RecruitmentManagerContext DbContext
+
+<h3>HRMS Job Portal</h3>
+<div>
+     <QuickGrid Items="@DbContext.Jobs">
+        <PropertyColumn Property="@(job => job.Id)" Sortable="true" />
+        <PropertyColumn Property="@(job => job.Position)" Sortable="true" />
+        <PropertyColumn Property="@(job => job.Location)" Sortable="true" />
+        <PropertyColumn Property="@(job => job.EndDate)" Format="yyyy-MM-dd" Sortable="true" />
+        @* <PropertyColumn /> *@
+    </QuickGrid>
+</div>
+<div>
+
+    <button onclick="window.location.href='/job';">New Job Posting</button>
+</div>

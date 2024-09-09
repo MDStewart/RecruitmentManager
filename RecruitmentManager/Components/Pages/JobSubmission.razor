@@ -1,0 +1,23 @@
+﻿@page "/job"
+
+@using RecruitmentManager.Models
+
+<h3>MDEQ Job Posting</h3>
+
+<div>
+    <EditForm FormName="job-submission" Model="Model" OnSubmit="SubmitJobApplication">
+
+    </EditForm>
+</div>
+
+@code{
+    [SupplyParameterFromForm(FormName ="job-submission")]
+    public Job? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+    
+    private void SubmitJobApplication()
+    {
+        
+    }
+}
