@@ -1,9 +1,10 @@
 ﻿@page "/job-board"
 @rendermode InteractiveServer
 @using RecruitmentManager.Models
+@using RecruitmentManager.Data
 @using Microsoft.AspNetCore.Components.QuickGrid
 
-@inject RecruitmentManagerContext DbContext
+@inject HRMSContext DbContext
 
 <h3>HRMS Job Portal</h3>
 <div>
@@ -11,7 +12,7 @@
         <PropertyColumn Property="@(job => job.Id)" Sortable="true" />
         <PropertyColumn Property="@(job => job.Position)" Sortable="true" />
         <PropertyColumn Property="@(job => job.Location)" Sortable="true" />
-        <PropertyColumn Property="@(job => job.EndDate)" Format="yyyy-MM-dd" Sortable="true" />
+        <PropertyColumn Property="@(job => job.EndDate)" Format="yyyy-MM-dd" Title="End Date" Sortable="true" />
         @* <PropertyColumn /> *@
     </QuickGrid>
 </div>
