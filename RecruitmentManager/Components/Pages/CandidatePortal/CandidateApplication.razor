@@ -1,0 +1,156 @@
+﻿@page "/candidate-application/{CId?}"
+
+@using System.Runtime.InteropServices.JavaScript
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.EntityFrameworkCore
+@using RecruitmentManager.Data
+@using RecruitmentManager.Models
+@using RecruitmentManager.Services
+
+@inject HRMSService Service
+
+<h3>Apply with MDEQ</h3>
+<p>Create a profile and apply to available MDEQ positions.</p>
+
+<dialog open="@submitted">
+    <p>@AlertMessage</p>
+    <form method="dialog">
+        <button onclick="window.location.href='@location';" auto>Close</button>
+    </form>
+</dialog>
+
+<EditForm FormName="candidate-application" Model="Model" OnSubmit="SubmitCandidateApplication">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <label for="firstName">
+        First Name <span class="required">*</span>
+    </label>
+    <InputText id="firstName" @bind-Value="Model!.FirstName" DisplayName="First Name" class="required" />
+    <label for="lastName">
+        Last Name <span class="required">*</span>
+    </label>
+    <InputText id="lastName" @bind-Value="Model.LastName" DisplayName="Last Name" class="required" />
+    <label for="preferredName">
+        Preferred Name
+    </label>
+    <InputText id="preferredName" @bind-Value="Model.PreferredName" DisplayName="Preferred Name" />
+
+    <label>
+        Email <span class="required">*</span>
+    </label>
+    <InputText @bind-Value="Model.Email" DisplayName="Email" class="required" />
+
+    <label>
+        Phone <span class="required">*</span>
+    </label>
+    <InputText @bind-Value="Model.Phone" DisplayName="Phone" class="required" />
+
+    <label>
+        Highest Level of Education Completed
+    </label>
+    <InputSelect class="required" @bind-Value="Model.Education" DisplayName="Highest Level of Education">
+        <option value="GED">GED</option>
+        <option value="High School">High School</option>
+        <option value="Associate Degree">Associate Degree</option>
+        <option value="Bachelor's Degree">Bachelor's Degree</option>
+        <option value="Master's Degree">Master's Degree</option>
+        <option value="PhD">PhD</option>
+    </InputSelect>
+    <label>
+        Major
+    </label>
+    <InputText @bind-Value="Model.Major" DisplayName="Major" />
+
+    <div class="toggleInput">
+        <label for="notGraduated">
+            I have not graduated
+            <input type="checkbox" name="notGraduated" id="notGraduated" value="false" @onclick="() => {hidden = !hidden;}" />
+        </label>
+
+        <div id="optionalContent">
+            <label for="graduationDate">
+                Expected graduation:
+            </label>
+            <InputDate id="graduationDate" @bind-Value="Model.ExpectedGraduationDate" />
+        </div>
+    </div>
+
+    <label for="industries">Industries</label>
+    <span class="description">Please list industries you find most applicable to your experience or personal interest.</span>
+    <p>
+        <InputTextArea id="industries" DisplayName="Industries" @bind-Value="Model!.Industries"></InputTextArea>
+    </p>
+
+
+    <label for="resume">
+        Resume
+    </label>
+    <InputFile type="file" id="resume" />
+
+    <br />
+    <div>
+        <label for="eligibility">
+            I am eligible for employment with the State of Mississippi.
+            <input type="checkbox" id="eligibility" value="true" @onclick="() => {disabled = !disabled;}" />
+        </label>
+        <details>
+            <summary>
+                Do you meet our employment eligibility?
+            </summary>
+
+            <ol type="A">
+                <li>
+                    Any male between the ages of 18 and 26 must be registered with the Selective Service to qualify for employment with the State of Mississippi. Upon hire, applicants must be registered with the Selective Service, if applicable.
+                </li>
+
+                <li>
+                    MDEQ only employs natural born or naturalized United States citizens or those who are authorized to work in the United States by holding a permanent resident card (i.e. a green card). Upon hire, applicants must be able to provide proof of employment eligibility.
+                </li>
+            </ol>
+        </details>
+    </div>
+
+    <br />
+    <button type="submit">Submit</button>  <button type="reset">Cancel</button>
+</EditForm>
+
+
+@code {
+    [SupplyParameterFromForm]
+    public Candidate? Model { get; set; }
+
+    [Parameter]
+    public string? CId { get; set; }
+
+    private bool hidden = true;
+    private bool disabled = true;
+    private string? AlertMessage { get; set; }
+    private string location = "";
+    private bool submitted = false;
+
+
+    protected override void OnInitialized()
+    {
+        Model ??= new() { ExpectedGraduationDate = DateOnly.FromDateTime(DateTime.Now) };
+        if (CId != null && CId != "")
+        {
+            // Retrieve job from database
+            Model = Service.GetByCandidateId(int.Parse(CId!));
+        }
+    }
+
+    public void SubmitCandidateApplication()
+    {
+        Service.Create(Model!);
+        AlertMessage = "Application submitted!";
+        submitted = true;
+        location = "/apply-with-mdeq";
+    }
+
+    public void InvalidSubmission()
+    {
+        AlertMessage = "Invalid submission.";
+        location = "/candidate-application";
+    }
+
+}

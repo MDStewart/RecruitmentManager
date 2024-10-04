@@ -13,11 +13,18 @@ public class HRMSService
         _context = context;
     }
 
-    public IEnumerable<Job> GetJobs()
+    public IEnumerable <Job> GetJobs()
     {
         return _context.Jobs
             .AsNoTracking()
             .ToList();
+    }
+
+    public IEnumerable<Job> GetCurrentJobs()
+    {
+        return _context.Jobs
+            .Where(job => job.EndDate.CompareTo(DateTime.Now) >= 0)
+            .AsEnumerable();
     }
 
     public Job? GetByJobId(int jobId)
@@ -34,6 +41,22 @@ public class HRMSService
         _context.SaveChanges();
 
         return newJob;
+    }
+
+    public Candidate? GetByCandidateId(int candidateId)
+    {
+        return _context.Candidates
+            .Include(candidate => candidate.Applications)
+            .AsNoTracking()
+            .SingleOrDefault (candidate => candidate.Id == candidateId);
+    }
+
+    public Candidate Create(Candidate newCandidate)
+    {
+        _context.Candidates.Add(newCandidate);
+        _context.SaveChanges();
+
+        return newCandidate;
     }
 
     public void ApplyToJob(int jobId, int applicantId)

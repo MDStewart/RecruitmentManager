@@ -1,4 +1,4 @@
-﻿@page "/job"
+﻿@page "/job/{PId?}"
 
 @using RecruitmentManager.Models
 @using RecruitmentManager.Data
@@ -11,7 +11,7 @@
 <dialog open="@submitted">
     <p>@AlertMessage</p>
     <form method="dialog">
-        <button onclick="window.location.href='/job-board';">Close</button>
+        <button onclick="window.location.href='@location';">Close</button>
     </form>
 </dialog>
 <div>
@@ -59,12 +59,17 @@
 @code {
     [SupplyParameterFromForm]
     private Job? Model { get; set; }
+
+    [Parameter]
+    public int? PId { get; set; }
+
     private string? AlertMessage { get; set; }
     private bool submitted = false;
+    private string location = "";
 
     protected override void OnInitialized()
     {
-        Model ??= new() { EndDate = DateOnly.FromDateTime(DateTime.Now) }; ;
+        Model ??= new() { EndDate = DateOnly.FromDateTime(DateTime.Now) };
     }
 
     private void SubmitJobOpening()
@@ -74,16 +79,13 @@
             Service.Create(Model);
             AlertMessage = "Job opening submitted!";
             submitted = true;
-            Reset();
+            location = "/job-board";
         }
         else
         {
             AlertMessage = "Form is INVALID";
+            location = "/job";
         }
     }
 
-    private void Reset()
-    {
-        Model = new() { EndDate = DateOnly.FromDateTime(DateTime.Now) };
-    }
 }
