@@ -8,7 +8,8 @@ namespace RecruitmentManager.Models;
 /// </summary>
 public partial class Job
 {
-    public int Id { get; set; }
+    [Key]
+    public int PIN { get; set; }
 
     [Required]
     public string? Position { get; set; }
@@ -27,6 +28,18 @@ public partial class Job
 
     public string? PrimaryFunctions { get; set; }
 
-    [JsonIgnore]
-    public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
+    public string Office {  get; set; }
+
+    public string Title { get; set; }
+
+    public string Supervisor { get; set; }
+
+    public string Status { get; set; }
+
+    public bool FirstTimePosted { get; set; }
+
+    public DateOnly InternalPostingStartDate { get; set; }
+
+    public DateOnly InternalClosingDate { get; set; }
+
 }

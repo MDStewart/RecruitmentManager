@@ -20,10 +20,13 @@
 <h3>MDEQ Job Openings</h3>
 <div>
     <QuickGrid TGridItem="Job" Items="@Context.Jobs">
-        <PropertyColumn Property="@(job => url + job.Id)" Title="Last Name" Sortable="true" />
-        <PropertyColumn Property="@(job => job.Location)" Title="First Name" Sortable="true" />
+        <PropertyColumn Property="@(job => job.PIN)" Sortable="true" />
+        <PropertyColumn Property="@(job => job.Location)" Sortable="true" />
         <PropertyColumn Property="@(job => job.Position)" Sortable="true" />
-        <PropertyColumn Property="@(job => job.EndDate)"/>
+        <PropertyColumn Property="@(job => job.EndDate)" Title="End Date" Sortable="true" />
+        <TemplateColumn Title="Apply" Context="job">
+            <button onclick="window.location.href='candidate-application/@job.PIN';">Apply</button>
+        </TemplateColumn>
     </QuickGrid>
 </div>
 
@@ -32,5 +35,4 @@
 </div>
 
 @code {
-    private string url = "<a href=\"/candidate-application/\">Apply</a>";
 }

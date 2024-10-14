@@ -19,47 +19,64 @@
     </form>
 </dialog>
 
-<EditForm FormName="candidate-application" Model="Model" OnSubmit="SubmitCandidateApplication">
+<EditForm FormName="candidate-application" EditContext="EditContext" OnSubmit="SubmitCandidateApplication">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <label for="firstName">
-        First Name <span class="required">*</span>
-    </label>
-    <InputText id="firstName" @bind-Value="Model!.FirstName" DisplayName="First Name" class="required" />
-    <label for="lastName">
-        Last Name <span class="required">*</span>
-    </label>
-    <InputText id="lastName" @bind-Value="Model.LastName" DisplayName="Last Name" class="required" />
-    <label for="preferredName">
-        Preferred Name
-    </label>
-    <InputText id="preferredName" @bind-Value="Model.PreferredName" DisplayName="Preferred Name" />
+    <div>
+        <label for="firstName">
+            First Name <span class="required">*</span>
+        </label>
+        <InputText id="firstName" @bind-Value="Model!.FirstName" DisplayName="First Name" class="required" />
+    </div>
 
-    <label>
-        Email <span class="required">*</span>
-    </label>
-    <InputText @bind-Value="Model.Email" DisplayName="Email" class="required" />
+    <div>
+        <label for="lastName">
+            Last Name <span class="required">*</span>
+        </label>
+        <InputText id="lastName" @bind-Value="Model.LastName" DisplayName="Last Name" class="required" />
+    </div>
 
-    <label>
-        Phone <span class="required">*</span>
-    </label>
-    <InputText @bind-Value="Model.Phone" DisplayName="Phone" class="required" />
+    <div>
+        <label for="preferredName">
+            Preferred Name
+        </label>
+        <InputText id="preferredName" @bind-Value="Model.PreferredName" DisplayName="Preferred Name" />
+    </div>
 
-    <label>
-        Highest Level of Education Completed
-    </label>
-    <InputSelect class="required" @bind-Value="Model.Education" DisplayName="Highest Level of Education">
-        <option value="GED">GED</option>
-        <option value="High School">High School</option>
-        <option value="Associate Degree">Associate Degree</option>
-        <option value="Bachelor's Degree">Bachelor's Degree</option>
-        <option value="Master's Degree">Master's Degree</option>
-        <option value="PhD">PhD</option>
-    </InputSelect>
-    <label>
-        Major
-    </label>
-    <InputText @bind-Value="Model.Major" DisplayName="Major" />
+    <div>
+        <label>
+            Email <span class="required">*</span>
+        </label>
+        <InputText @bind-Value="Model.Email" DisplayName="Email" class="required" />
+    </div>
+
+    <div>
+        <label>
+            Phone <span class="required">*</span>
+        </label>
+        <InputText @bind-Value="Model.Phone" DisplayName="Phone" class="required" />
+    </div>
+
+    <div>
+        <label>
+            Highest Level of Education Completed
+        </label>
+        <InputSelect class="required" @bind-Value="Model.Education" DisplayName="Highest Level of Education">
+            <option value="GED">GED</option>
+            <option value="High School">High School</option>
+            <option value="Associate Degree">Associate Degree</option>
+            <option value="Bachelor's Degree">Bachelor's Degree</option>
+            <option value="Master's Degree">Master's Degree</option>
+            <option value="PhD">PhD</option>
+        </InputSelect>
+    </div>
+
+    <div>
+        <label>
+            Major
+        </label>
+        <InputText @bind-Value="Model.Major" DisplayName="Major" />
+    </div>
 
     <div class="toggleInput">
         <label for="notGraduated">
@@ -75,19 +92,22 @@
         </div>
     </div>
 
-    <label for="industries">Industries</label>
-    <span class="description">Please list industries you find most applicable to your experience or personal interest.</span>
-    <p>
+    <div>
+        <label for="industries">
+            Industries
+            <span class="description">Please list industries you find most applicable to your experience or personal interest.</span>
+        </label>
+
         <InputTextArea id="industries" DisplayName="Industries" @bind-Value="Model!.Industries"></InputTextArea>
-    </p>
+    </div>
 
+    <div>
+        <label for="resume">
+            Resume
+        </label>
+        <InputFile type="file" id="resume" />
+    </div>
 
-    <label for="resume">
-        Resume
-    </label>
-    <InputFile type="file" id="resume" />
-
-    <br />
     <div>
         <label for="eligibility">
             I am eligible for employment with the State of Mississippi.
@@ -110,14 +130,18 @@
         </details>
     </div>
 
-    <br />
-    <button type="submit">Submit</button>  <button type="reset">Cancel</button>
+    <div>
+        <button type="submit">Submit</button>  <button type="reset">Cancel</button>
+    </div>
+
 </EditForm>
 
 
 @code {
     [SupplyParameterFromForm]
     public Candidate? Model { get; set; }
+    public Job Job { get; set; }
+    private EditContext? EditContext { get; set; }
 
     [Parameter]
     public string? CId { get; set; }
@@ -135,8 +159,9 @@
         if (CId != null && CId != "")
         {
             // Retrieve job from database
-            Model = Service.GetByCandidateId(int.Parse(CId!));
+            Job = Service.GetByJobId(int.Parse(CId!));
         }
+        EditContext = new EditContext(Model);
     }
 
     public void SubmitCandidateApplication()

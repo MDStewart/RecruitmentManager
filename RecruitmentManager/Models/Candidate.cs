@@ -8,20 +8,8 @@ namespace RecruitmentManager.Models;
 /// <summary>
 /// Candidate information submitted with job application
 /// </summary>
-public partial class Candidate
+public partial class Candidate : Credentials
 {
-    public int Id { get; set; }
-
-    public string FirstName { get; set; }
-
-    public string LastName { get; set; }
-
-    public string PreferredName { get; set; }
-
-    public string Email { get; set; }
-
-    public string Phone { get; set; }
-
     public string Education { get; set; }
 
     public string Major { get; set; }
@@ -31,6 +19,4 @@ public partial class Candidate
     public string Industries { get; set; }
 
     public byte[] Resume { get; set; }
-
-    public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 }

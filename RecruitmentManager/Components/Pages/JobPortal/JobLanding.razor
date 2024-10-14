@@ -9,7 +9,7 @@
 <h3>HRMS Job Portal</h3>
 <div>
      <QuickGrid Items="@DbContext.Jobs">
-        <PropertyColumn Property="@(job => job.Id)" Sortable="true" />
+        <PropertyColumn Property="@(job => job.PIN)" Sortable="true" />
         <PropertyColumn Property="@(job => job.Position)" Sortable="true" />
         <PropertyColumn Property="@(job => job.Location)" Sortable="true" />
         <PropertyColumn Property="@(job => job.EndDate)" Format="yyyy-MM-dd" Title="End Date" Sortable="true" />

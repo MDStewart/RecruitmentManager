@@ -18,41 +18,77 @@
     <EditForm FormName="job-submission" Model="Model" OnSubmit="SubmitJobOpening">
         <DataAnnotationsValidator />
         <ValidationSummary />
-        <p>
-            <label>PIN: <InputNumber @bind-Value="Model!.Id" placeholder="1234" size="10" /></label>
-        </p>
-        <p>
-            <label>Position: <InputText @bind-Value="Model.Position" size="50" /></label>
-        </p>
-        <p>
-            <label>
-                Location:
-                <InputSelect TValue="String" @bind-Value="Model.Location">
-                    @foreach (string loc in JobLocations.Locations)
-                    {
-                        <option value="@loc">@loc</option>
-                    }
-                </InputSelect>
-            </label>
-        </p>
-        <p>
-            <label>Starting Salary: <InputNumber @bind-Value="Model.StartingSalary" placeholder="50000.00" size="10" /></label>
-        </p>
-        <p>
-            <label>End Date: <InputDate @bind-Value="Model.EndDate" /></label>
-        </p>
-        <p>
-            <label>Minimum Qualifications: <InputTextArea @bind-Value="Model.MinimumQualifications" rows="5" cols="50" /></label>
-        </p>
-        <p>
-            <label>Special Requirements: <InputTextArea @bind-Value="Model.SpecialRequirements" rows="5" cols="50" /></label>
-        </p>
-        <p>
-            <label>Primary Functions: <InputTextArea @bind-Value="Model.PrimaryFunctions" rows="5" cols="50" /></label>
-        </p>
-        <p>
+        <div>
+            <label for="pin">PIN: </label>
+            <InputNumber id="pin" @bind-Value="Model!.PIN" placeholder="1234" size="10" />
+        </div>
+        <div>
+            <label for="position">Position: </label>
+            <InputText id="position" @bind-Value="Model.Position" size="50" />
+        </div>
+        <div>
+            <label for="location">Location:</label>
+            <InputSelect id="location" TValue="String" @bind-Value="Model.Location">
+                @foreach (string loc in JobLocations.Locations)
+                {
+                    <option value="@loc">@loc</option>
+                }
+            </InputSelect>
+        </div>
+        <div>
+            <label for="startingSalary">Starting Salary: </label>
+            <InputNumber id="startingSalary" @bind-Value="Model.StartingSalary" placeholder="50000.00" size="10" />
+        </div>
+        <div>
+            <label for="endDate">End Date: </label>
+            <InputDate id="endDate" @bind-Value="Model.EndDate" />
+        </div>
+        <div>
+            <label for="minQual">Minimum Qualifications: </label>
+            <InputTextArea id="minQual" @bind-Value="Model.MinimumQualifications" rows="5" cols="50" />
+        </div>
+        <div>
+            <label for="specialReq">Special Requirements: </label>
+            <InputTextArea @bind-Value="Model.SpecialRequirements" rows="5" cols="50" />
+        </div>
+        <div>
+            <label for="primaryFunc">Primary Functions: </label>
+            <InputTextArea id="primaryFunc" @bind-Value="Model.PrimaryFunctions" rows="5" cols="50" />
+        </div>
+        <div>
+            <label for="office">Office:</label>
+            <InputText id="office" @bind-Value="Model.Office" />
+        </div>
+        <div>
+            <label for="title">Title:</label>
+            <InputText id="title" @bind-Value="Model.Title" />
+        </div>
+        <div>
+            <label for="supervisor">Supervisor:</label>
+            <InputText id="supervisor" @bind-Value="Model.Supervisor"  />
+        </div>
+        <div>
+            <label for="status">Status</label>
+            <InputText id="status" @bind-Value="Model.Status" />
+        </div>
+        <div>
+            <label for="firstTimePosted">First Time Posted:</label>
+            <InputRadioGroup id="firstTimePosted" @bind-Value="Model.FirstTimePosted">
+                <label><InputRadio Value="true" /> Yes</label>
+                <label><InputRadio Value="false" /> No</label>
+            </InputRadioGroup>
+        </div>
+        <div>
+            <label for="intPostStartDate">Internal Posting Start Date:</label>
+            <InputDate id="intPostStartDate" @bind-Value="Model.InternalPostingStartDate" />
+        </div>
+        <div>
+            <label for="intClosingDate">Internal Closing Date:</label>
+            <InputDate id="intClosingDate" @bind-Value="Model.InternalClosingDate" />
+        </div>
+        <div>
             <button type="submit">Submit</button>
-        </p>
+        </div>
     </EditForm>
 </div>
 

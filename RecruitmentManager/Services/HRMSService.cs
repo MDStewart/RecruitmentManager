@@ -30,9 +30,8 @@ public class HRMSService
     public Job? GetByJobId(int jobId)
     {
         return _context.Jobs
-            .Include(job => job.Applications)
             .AsNoTracking()
-            .SingleOrDefault(job => job.Id == jobId);
+            .SingleOrDefault(job => job.PIN == jobId);
     }
     
     public Job Create(Job newJob)
@@ -46,7 +45,6 @@ public class HRMSService
     public Candidate? GetByCandidateId(int candidateId)
     {
         return _context.Candidates
-            .Include(candidate => candidate.Applications)
             .AsNoTracking()
             .SingleOrDefault (candidate => candidate.Id == candidateId);
     }
@@ -67,16 +65,7 @@ public class HRMSService
         {
             throw new InvalidOperationException("Job ID or Candidate does not exist");
         }
-        
-        if (jobToApply.Applications is null)
-        {
-            jobToApply.Applications = new List<Application>();
-        }
-
-        Application application = new() { ApplicantId = applicantId, JobId = jobId, Applicant = candidate, Job = jobToApply };
-
-        jobToApply.Applications.Add(application);
-        
+         
         _context.SaveChanges();
     }
 }
