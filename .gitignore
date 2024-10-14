@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/RecruitmentManager/Data/DbInitializer.cs
+/RecruitmentManager/Data/HRMS_112624.db
