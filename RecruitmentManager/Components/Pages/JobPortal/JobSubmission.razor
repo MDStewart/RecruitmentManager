@@ -28,12 +28,7 @@
         </div>
         <div>
             <label for="location">Location:</label>
-            <InputSelect id="location" TValue="String" @bind-Value="Model.Location">
-                @foreach (string loc in JobLocations.Locations)
-                {
-                    <option value="@loc">@loc</option>
-                }
-            </InputSelect>
+            <InputText id="location" TValue="String" @bind-Value="Model.Location" />
         </div>
         <div>
             <label for="startingSalary">Starting Salary: </label>
