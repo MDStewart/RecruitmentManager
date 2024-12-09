@@ -1,0 +1,31 @@
+﻿@page "/login"
+
+@using Microsoft.AspNetCore.Authorization
+@using RecruitmentManager.Components.Layout
+@using RecruitmentManager.Models
+@using RecruitmentManager.Services
+
+@inject HRMSService Service
+@attribute [AllowAnonymous]
+@layout LoginLayout
+
+<div class="text-center">
+    <EditForm class="form-signin mb-4" Model="credential" OnSubmit="@Authenticate">
+       <div class="">
+           <label for="userName">User Name</label>
+           <InputText id="userName" @bind-Value="credential.UserName" />
+       </div>
+        <div class="">
+            <label for="password">Password</label>
+            <InputText id="password" @bind-Value="credential.Password" />
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private Credentials credential = new Credentials();
+
+    private void Authenticate()
+    {
+    }
+}

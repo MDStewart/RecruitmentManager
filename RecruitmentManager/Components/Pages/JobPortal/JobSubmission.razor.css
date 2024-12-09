@@ -1,0 +1,18 @@
+﻿.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 12px;
+}
+.formCol, p {
+    display: inline-flex;
+    flex-direction:column;
+    margin:20px 25px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    margin: 10px 0;
+    border: 2px solid gray;
+    border-radius: 5px;
+}

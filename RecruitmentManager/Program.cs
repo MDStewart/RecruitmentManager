@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using RecruitmentManager.Client.Pages;
+using Microsoft.Extensions.Configuration;
 using RecruitmentManager.Components;
+using RecruitmentManager.Data;
 using RecruitmentManager.Models;
+using RecruitmentManager.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +13,15 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddDbContext<RecruitmentManagerContext>( options => options.UseSqlServer(builder.Configuration.GetConnectionString("DevelopmentConnection")));
+builder.Services.AddSqlite<HRMSContext>(builder.Configuration.GetConnectionString("DevelopmentConnection"));
+builder.Services.AddScoped<HRMSService>();
+
+//builder.Services.AddDbContext<RecruitmentManagerContext>(options =>
+//{
+//    options.UseSqlite(builder.Configuration.GetConnectionString("DevelopmentConnection"));
+//    options.UseLazyLoadingProxies();
+//}
+//);
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 var app = builder.Build();

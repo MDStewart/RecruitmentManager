@@ -1,0 +1,43 @@
+﻿@page "/pin-tracker"
+@using RecruitmentManager.Models
+@using RecruitmentManager.Services
+
+@inject HRMSService Service
+
+<h3>PIN Tracker</h3>
+
+<table>
+    <tr>
+        <th>Office</th>
+        <th>PIN #</th>
+        <th>Job Title</th>
+        <th>Supervisor</th>
+        <th>Status</th>
+        <th>First Time Posted?</th>
+        <th>Internal Posting Start Date</th>
+        <th>Internal Posting Close Date</th>
+    </tr>
+    @foreach (var pin in PINs)
+    {
+        <tr>
+            <td>@pin.Office</td>
+            <td>@pin.PIN</td>
+            <td>@pin.Title</td>
+            <td>@pin.Supervisor</td>
+            <td>@pin.Status</td>
+            <td>@pin.FirstTimePosted</td>
+            <td>@pin.InternalPostingStartDate</td>
+            <td>@pin.InternalClosingDate</td>
+        </tr>
+    }
+</table>
+
+@code {
+    private List<Job> PINs { get; set; }
+
+    protected override void OnInitialized()
+    {
+        PINs = Service.GetJobs().ToList();
+    }
+
+}
