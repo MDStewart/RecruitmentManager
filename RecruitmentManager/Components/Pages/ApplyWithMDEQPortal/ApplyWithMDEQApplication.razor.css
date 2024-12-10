@@ -1,5 +1,6 @@
 ﻿﻿ /***  FORMS  ***/
 .required {
+    color: orangered;
 }
 
 textarea {
@@ -16,8 +17,8 @@ textarea {
 
 .container {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: 750px;
+    gap: 10px;
 }
 
 label {

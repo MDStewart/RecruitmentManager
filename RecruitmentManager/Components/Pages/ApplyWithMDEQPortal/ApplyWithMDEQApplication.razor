@@ -3,14 +3,15 @@
 @using System.Runtime.InteropServices.JavaScript
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Microsoft.EntityFrameworkCore
+@using RecruitmentManager.Components.Layout
 @using RecruitmentManager.Data
 @using RecruitmentManager.Models
 @using RecruitmentManager.Services
 
+@layout CandidateLayout
 @inject HRMSService Service
 
 <h3>Apply with MDEQ</h3>
-<p>Create a profile and apply to available MDEQ positions.</p>
 
 <dialog open="@submitted">
     <p>@AlertMessage</p>
@@ -18,6 +19,15 @@
         <button onclick="window.location.href='@location';" auto>Close</button>
     </form>
 </dialog>
+
+<div class="container">
+    <p><strong>Position:</strong> @Job.Position</p>
+    <p><strong>PIN:</strong> @Job.PIN</p>
+    <p><strong>Starting Salary:</strong> @Job.StartingSalary.ToString("C2")</p>
+    <p><strong>Minimum Qualifications:</strong> @Job.MinimumQualifications</p>
+    <p><strong>Primary Functions:</strong> @Job.PrimaryFunctions</p>
+    <p><strong>Special Requirements:</strong> @Job.SpecialRequirements</p>
+</div>
 
 <EditForm FormName="candidate-application" EditContext="EditContext" OnSubmit="SubmitCandidateApplication">
     <DataAnnotationsValidator />
@@ -95,8 +105,8 @@
     <div>
         <label for="industries">
             Industries
-            <span class="description">Please list industries you find most applicable to your experience or personal interest.</span>
         </label>
+        <p> <span class="description">Please list industries you find most applicable to your experience or personal interest.</span></p>
 
         <InputTextArea id="industries" DisplayName="Industries" @bind-Value="Model!.Industries"></InputTextArea>
     </div>
