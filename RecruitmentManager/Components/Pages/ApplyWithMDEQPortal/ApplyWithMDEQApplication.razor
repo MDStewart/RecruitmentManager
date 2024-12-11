@@ -1,4 +1,5 @@
-﻿@page "/candidate-application/{CId?}"
+﻿@page "/candidate-application"
+@rendermode InteractiveServer
 
 @using System.Runtime.InteropServices.JavaScript
 @using Microsoft.AspNetCore.Components.QuickGrid
@@ -19,142 +20,145 @@
         <button onclick="window.location.href='@location';" auto>Close</button>
     </form>
 </dialog>
-
 <div class="container">
-    <p><strong>Position:</strong> @Job.Position</p>
-    <p><strong>PIN:</strong> @Job.PIN</p>
-    <p><strong>Starting Salary:</strong> @Job.StartingSalary.ToString("C2")</p>
-    <p><strong>Minimum Qualifications:</strong> @Job.MinimumQualifications</p>
-    <p><strong>Primary Functions:</strong> @Job.PrimaryFunctions</p>
-    <p><strong>Special Requirements:</strong> @Job.SpecialRequirements</p>
-</div>
-
-<EditForm FormName="candidate-application" EditContext="EditContext" OnSubmit="SubmitCandidateApplication">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <div>
-        <label for="firstName">
-            First Name <span class="required">*</span>
-        </label>
-        <InputText id="firstName" @bind-Value="Model!.FirstName" DisplayName="First Name" class="required" />
-    </div>
-
-    <div>
-        <label for="lastName">
-            Last Name <span class="required">*</span>
-        </label>
-        <InputText id="lastName" @bind-Value="Model.LastName" DisplayName="Last Name" class="required" />
-    </div>
-
-    <div>
-        <label for="preferredName">
-            Preferred Name
-        </label>
-        <InputText id="preferredName" @bind-Value="Model.PreferredName" DisplayName="Preferred Name" />
-    </div>
-
-    <div>
-        <label>
-            Email <span class="required">*</span>
-        </label>
-        <InputText @bind-Value="Model.Email" DisplayName="Email" class="required" />
-    </div>
-
-    <div>
-        <label>
-            Phone <span class="required">*</span>
-        </label>
-        <InputText @bind-Value="Model.Phone" DisplayName="Phone" class="required" />
-    </div>
-
-    <div>
-        <label>
-            Highest Level of Education Completed
-        </label>
-        <InputSelect class="required" @bind-Value="Model.Education" DisplayName="Highest Level of Education">
-            <option value="GED">GED</option>
-            <option value="High School">High School</option>
-            <option value="Associate Degree">Associate Degree</option>
-            <option value="Bachelor's Degree">Bachelor's Degree</option>
-            <option value="Master's Degree">Master's Degree</option>
-            <option value="PhD">PhD</option>
-        </InputSelect>
-    </div>
-
-    <div>
-        <label>
-            Major
-        </label>
-        <InputText @bind-Value="Model.Major" DisplayName="Major" />
-    </div>
-
-    <div class="toggleInput">
-        <label for="notGraduated">
-            I have not graduated
-            <input type="checkbox" name="notGraduated" id="notGraduated" value="false" @onclick="() => {hidden = !hidden;}" />
-        </label>
-
-        <div id="optionalContent">
-            <label for="graduationDate">
-                Expected graduation:
+    <EditForm FormName="candidate-application" EditContext="EditContext" OnSubmit="SubmitCandidateApplication">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div>
+            <label for="firstName">
+                First Name <span class="required">*</span>
             </label>
-            <InputDate id="graduationDate" @bind-Value="Model.ExpectedGraduationDate" />
+            <InputText id="firstName" @bind-Value="Model!.FirstName" DisplayName="First Name" class="required" />
         </div>
-    </div>
+
+        <div>
+            <label for="lastName">
+                Last Name <span class="required">*</span>
+            </label>
+            <InputText id="lastName" @bind-Value="Model.LastName" DisplayName="Last Name" class="required" />
+        </div>
+
+        <div>
+            <label for="preferredName">
+                Preferred Name
+            </label>
+            <InputText id="preferredName" @bind-Value="Model.PreferredName" DisplayName="Preferred Name" />
+        </div>
+
+        <div>
+            <label>
+                Email <span class="required">*</span>
+            </label>
+            <InputText @bind-Value="Model.Email" DisplayName="Email" class="required" />
+        </div>
+
+        <div>
+            <label>
+                Phone <span class="required">*</span>
+            </label>
+            <InputText @bind-Value="Model.PhoneNumber" DisplayName="Phone" class="required" />
+        </div>
+
+        <div>
+            <label>
+                Highest Level of Education Completed
+            </label>
+            <InputSelect class="required" @bind-Value="Model.Education" DisplayName="Highest Level of Education">
+                <option value="GED">GED</option>
+                <option value="High School">High School</option>
+                <option value="Associate Degree">Associate Degree</option>
+                <option value="Bachelor's Degree">Bachelor's Degree</option>
+                <option value="Master's Degree">Master's Degree</option>
+                <option value="PhD">PhD</option>
+            </InputSelect>
+        </div>
+
+        <div>
+            <label>
+                Major
+            </label>
+            <InputText @bind-Value="Model.Major" DisplayName="Major" />
+        </div>
+
+        <div class="toggleInput">
+            <label for="notGraduated">
+                I have not graduated
+                <input type="checkbox" name="notGraduated" id="notGraduated" value="false" @onclick="() => {hidden = !hidden;}" />
+            </label>
+
+            <div id="optionalContent" hidden="@hidden">
+                <label for="graduationDate">
+                    Expected graduation:
+                </label>
+                <InputDate id="graduationDate" @bind-Value="Model.ExpectedGraduationDate" />
+            </div>
+        </div>
+
+        <div>
+            <label for="industries">
+                Industries
+            </label>
+            <p> <span class="description">Please list industries you find most applicable to your experience or personal interest.</span></p>
+
+            <InputTextArea id="industries" DisplayName="Industries" @bind-Value="Model!.Industries"></InputTextArea>
+        </div>
+
+        <div>
+            <label for="resumeEtc">
+                Resume
+            </label>
+            <InputFile type="file" id="resumeEtc" multiple />
+        </div>
+        <br />
+        <div>
+            <details>
+                <summary>
+                    Do you meet our employment eligibility?
+                </summary>
+
+                <ol type="A">
+                    <li>
+                        Any male between the ages of 18 and 26 must be registered with the Selective Service to qualify for employment with the State of Mississippi. Upon hire, applicants must be registered with the Selective Service, if applicable.
+                    </li>
+
+                    <li>
+                        MDEQ only employs natural born or naturalized United States citizens or those who are authorized to work in the United States by holding a permanent resident card (i.e. a green card). Upon hire, applicants must be able to provide proof of employment eligibility.
+                    </li>
+                </ol>
+            </details>
+            <label for="eligibility">
+                I am eligible for employment with the State of Mississippi.
+                <input type="checkbox" id="eligibility" value="true" @onclick="() => {disabled = !disabled;}" />
+            </label>
+
+        </div>
+
+        <div>
+            <button type="submit" disabled="@disabled">Submit</button>  <button type="reset">Cancel</button>
+        </div>
+
+    </EditForm>
 
     <div>
-        <label for="industries">
-            Industries
-        </label>
-        <p> <span class="description">Please list industries you find most applicable to your experience or personal interest.</span></p>
-
-        <InputTextArea id="industries" DisplayName="Industries" @bind-Value="Model!.Industries"></InputTextArea>
+        <h4>Positions Applying For:</h4>
+        <ul>
+            @foreach (var job in Jobs)
+            {
+                <li>@job.Position [@job.Location]</li>
+            }
+        </ul>
     </div>
-
-    <div>
-        <label for="resume">
-            Resume
-        </label>
-        <InputFile type="file" id="resume" />
-    </div>
-
-    <div>
-        <label for="eligibility">
-            I am eligible for employment with the State of Mississippi.
-            <input type="checkbox" id="eligibility" value="true" @onclick="() => {disabled = !disabled;}" />
-        </label>
-        <details>
-            <summary>
-                Do you meet our employment eligibility?
-            </summary>
-
-            <ol type="A">
-                <li>
-                    Any male between the ages of 18 and 26 must be registered with the Selective Service to qualify for employment with the State of Mississippi. Upon hire, applicants must be registered with the Selective Service, if applicable.
-                </li>
-
-                <li>
-                    MDEQ only employs natural born or naturalized United States citizens or those who are authorized to work in the United States by holding a permanent resident card (i.e. a green card). Upon hire, applicants must be able to provide proof of employment eligibility.
-                </li>
-            </ol>
-        </details>
-    </div>
-
-    <div>
-        <button type="submit">Submit</button>  <button type="reset">Cancel</button>
-    </div>
-
-</EditForm>
-
+</div>
 
 @code {
     [SupplyParameterFromForm]
     public Candidate? Model { get; set; }
-    public Job Job { get; set; }
+    public List<Job> Jobs { get; set; } = new();
     private EditContext? EditContext { get; set; }
 
     [Parameter]
-    public string? CId { get; set; }
+    [SupplyParameterFromQuery(Name = "pin")]
+    public string[]? PINs { get; set; }
 
     private bool hidden = true;
     private bool disabled = true;
@@ -166,12 +170,20 @@
     protected override void OnInitialized()
     {
         Model ??= new() { ExpectedGraduationDate = DateOnly.FromDateTime(DateTime.Now) };
-        if (CId != null && CId != "")
-        {
-            // Retrieve job from database
-            Job = Service.GetByJobId(int.Parse(CId!));
-        }
+
         EditContext = new EditContext(Model);
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (PINs!.Length > 0)
+        {
+            foreach (var pin in PINs)
+            {
+                var job = Service.GetByJobId(int.Parse(pin));
+                Jobs.Add(job!);
+            }
+        }
     }
 
     public void SubmitCandidateApplication()

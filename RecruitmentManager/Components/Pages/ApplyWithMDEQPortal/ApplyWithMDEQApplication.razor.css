@@ -17,7 +17,7 @@ textarea {
 
 .container {
     display: grid;
-    grid-template-columns: 750px;
+    grid-template-columns: 550px 400px;
     gap: 10px;
 }
 
