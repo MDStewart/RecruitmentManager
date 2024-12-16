@@ -1,12 +1,12 @@
 ﻿@page "/apply-with-mdeq"
 @rendermode InteractiveServer
 @using RecruitmentManager.Models
-@using RecruitmentManager.Data
+@using RecruitmentManager.Services
 @using RecruitmentManager.Components.Layout
 @using Microsoft.AspNetCore.Components.QuickGrid
 
 @layout CandidateLayout
-@inject HRMSContext Context
+@inject HRMSService Service
 
 <div class="container">
     <h2>Apply with MDEQ</h2>
@@ -22,7 +22,7 @@
 </div>
 <div>
     <h3>MDEQ Job Openings</h3>
-    <QuickGrid TGridItem="Job" Items="@Context.Jobs">
+    <QuickGrid TGridItem="Job" Items="@ExternalJobs.AsQueryable()">
         <PropertyColumn Property="@(job => job.Location)" Sortable="true" />
         <PropertyColumn Property="@(job => job.Position)" Sortable="true" />
         <PropertyColumn Property="@(job => job.EndDate)" Title="End Date" Sortable="true" />
@@ -34,4 +34,10 @@
 
 
 @code {
+    private IEnumerable<Job> ExternalJobs { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ExternalJobs = Service.GetExternalJobs();
+    }
 }

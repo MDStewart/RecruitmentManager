@@ -68,4 +68,14 @@ public class HRMSService
          
         _context.SaveChanges();
     }
+
+    public IEnumerable<Job> GetExternalJobs()
+    {
+        var today = DateOnly.FromDateTime(DateTime.Now);
+
+        return _context.Jobs
+           .Where(job => job.ExternalStartDate.CompareTo(today) <= 0)
+           .Where(job => job.ExternalClosingDate.CompareTo(today) >= 0)
+           .AsEnumerable();
+    }
 }
