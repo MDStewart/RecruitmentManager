@@ -7,6 +7,7 @@
 
 @layout CandidateLayout
 @inject HRMSService Service
+@inject NavigationManager NavigationManager
 
 <div class="container">
     <h2>Apply with MDEQ</h2>
@@ -19,25 +20,44 @@
     <p>
         <strong>Employment Eligibility: </strong>MDEQ only employs natural born or naturalized United States citizens or those who are authorized to work in the United States by holding a permanent resident card (i.e. a green card).  Upon hire, applicants must be able to provide proof of employment eligibility. Additionally, adult males born on or after January 1, 1960 must have registered with the selective service between the ages of 18 and 25.  Upon hire, applicants must be registered with the Selective Service, if applicable.
     </p>
-</div>
-<div>
-    <h3>MDEQ Job Openings</h3>
-    <QuickGrid TGridItem="Job" Items="@ExternalJobs.AsQueryable()">
-        <PropertyColumn Property="@(job => job.Location)" Sortable="true" />
-        <PropertyColumn Property="@(job => job.Position)" Sortable="true" />
-        <PropertyColumn Property="@(job => job.EndDate)" Title="End Date" Sortable="true" />
-        <TemplateColumn Title="Apply" Context="job">
-            <button onclick="window.location.href='candidate-application/@job.PIN';">Apply</button>
-        </TemplateColumn>
-    </QuickGrid>
-</div>
 
+    <div>
+        <h3>MDEQ Job Openings</h3>
+        <QuickGrid TGridItem="Job" Items="@Context.Jobs">
+            <PropertyColumn Property="@(job => job.Location)" Sortable="true" />
+            <PropertyColumn Property="@(job => job.Position)" Sortable="true" />
+            <PropertyColumn Property="@(job => job.EndDate)" Title="End Date" Sortable="true" />
+            <TemplateColumn Title="Apply" Context="job">
+                <input type="checkbox" @onchange="args => ToggleCheckbox(args, job.PIN)" />
+            </TemplateColumn>
+        </QuickGrid>
+        <button style="float: right;" onclick="@GenerateApplication">Apply to Selected Positions</button>
+    </div>
+</div>
 
 @code {
     private IEnumerable<Job> ExternalJobs { get; set; }
+    List<int> Selected = new List<int>();
 
     protected override void OnInitialized()
     {
         ExternalJobs = Service.GetExternalJobs();
+    }
+
+    // OnClick Function creates query string to attach to button
+    async Task ToggleCheckbox(ChangeEventArgs args, int pin)
+    {
+        bool isSelected = (bool)args.Value;
+        if (isSelected) Selected.Add(pin);
+        else Selected.Remove(pin);
+    }
+
+    private async Task GenerateApplication()
+    {
+        if (Selected?.Any() ?? false)
+        {
+            var queryString = string.Join("&", Selected.Select(pin => "pin=" + pin));
+            NavigationManager.NavigateTo("/candidate-application?" + queryString);
+        }
     }
 }
