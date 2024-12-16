@@ -74,8 +74,8 @@ public class HRMSService
         var today = DateOnly.FromDateTime(DateTime.Now);
 
         return _context.Jobs
-           .Where(job => job.ExternalStartDate.CompareTo(today) <= 0)
-           .Where(job => job.ExternalClosingDate.CompareTo(today) >= 0)
+           .Where(job => job.ExternalPostingStartDate.CompareTo(today) <= 0)
+           .Where(job => !job.ExternalClosingDate.HasValue || job.ExternalClosingDate!.Value.CompareTo(today) >= 0)
            .AsEnumerable();
     }
 }
