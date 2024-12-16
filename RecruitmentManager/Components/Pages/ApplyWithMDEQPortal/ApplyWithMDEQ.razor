@@ -1,12 +1,12 @@
 ﻿@page "/apply-with-mdeq"
 @rendermode InteractiveServer
 @using RecruitmentManager.Models
-@using RecruitmentManager.Data
+@using RecruitmentManager.Services
 @using RecruitmentManager.Components.Layout
 @using Microsoft.AspNetCore.Components.QuickGrid
 
 @layout CandidateLayout
-@inject HRMSContext Context
+@inject HRMSService Service
 @inject NavigationManager NavigationManager
 
 <div class="container">
@@ -36,7 +36,13 @@
 </div>
 
 @code {
+    private IEnumerable<Job> ExternalJobs { get; set; }
     List<int> Selected = new List<int>();
+
+    protected override void OnInitialized()
+    {
+        ExternalJobs = Service.GetExternalJobs();
+    }
 
     // OnClick Function creates query string to attach to button
     async Task ToggleCheckbox(ChangeEventArgs args, int pin)
