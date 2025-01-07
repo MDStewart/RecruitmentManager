@@ -42,4 +42,7 @@ public partial class Job
 
     public DateOnly InternalClosingDate { get; set; }
 
+    public DateOnly ExternalStartDate { get; set; }
+    public DateOnly ExternalClosingDate { get; set; }
+
 }
