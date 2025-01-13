@@ -1,12 +1,12 @@
 ﻿@page "/apply-with-mdeq"
 @rendermode InteractiveServer
 @using RecruitmentManager.Models
-@using RecruitmentManager.Services
+@using RecruitmentManager.Data
 @using RecruitmentManager.Components.Layout
 @using Microsoft.AspNetCore.Components.QuickGrid
 
 @layout CandidateLayout
-@inject HRMSService Service
+@inject HRMSContext Context
 @inject NavigationManager NavigationManager
 
 <div class="container">
@@ -41,7 +41,7 @@
 
     protected override void OnInitialized()
     {
-        ExternalJobs = Service.GetExternalJobs();
+        ExternalJobs = Context.Jobs.AsQueryable();
     }
 
     // OnClick Function creates query string to attach to button
