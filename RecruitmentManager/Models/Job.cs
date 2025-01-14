@@ -19,9 +19,6 @@ public partial class Job
     [Required]
     public string? Location { get; set; }
 
-    [Required]
-    public DateOnly EndDate { get; set; }
-
     public string? MinimumQualifications { get; set; }
 
     public string? SpecialRequirements { get; set; }

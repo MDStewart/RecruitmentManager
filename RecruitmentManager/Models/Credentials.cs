@@ -14,6 +14,6 @@ public class Credentials : IdentityUser
 
     public string? PreferredName { get; set; }
 
-    public string Password { get; set; }
+    public string? Password { get; set; }
 
 }

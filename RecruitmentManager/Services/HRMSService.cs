@@ -23,7 +23,7 @@ public class HRMSService
     public IEnumerable<Job> GetCurrentJobs()
     {
         return _context.Jobs
-            .Where(job => job.EndDate.CompareTo(DateTime.Now) >= 0)
+            .Where(job => job.ExternalClosingDate.CompareTo(DateTime.Now) >= 0)
             .AsEnumerable();
     }
 
@@ -77,5 +77,10 @@ public class HRMSService
            .Where(job => job.ExternalStartDate.CompareTo(today) <= 0)
            .Where(job => job.ExternalClosingDate.CompareTo(today) >= 0)
            .AsEnumerable();
+    }
+
+    public IEnumerable<Job> GetActiveJobs()
+    {
+        return _context.Jobs;
     }
 }

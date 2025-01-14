@@ -35,10 +35,6 @@
             <InputNumber id="startingSalary" @bind-Value="Model.StartingSalary" placeholder="50000.00" size="10" />
         </div>
         <div>
-            <label for="endDate">End Date: </label>
-            <InputDate id="endDate" @bind-Value="Model.EndDate" />
-        </div>
-        <div>
             <label for="minQual">Minimum Qualifications: </label>
             <InputTextArea id="minQual" @bind-Value="Model.MinimumQualifications" rows="5" cols="50" />
         </div>
@@ -100,7 +96,7 @@
 
     protected override void OnInitialized()
     {
-        Model ??= new() { EndDate = DateOnly.FromDateTime(DateTime.Now) };
+        Model ??= new() {};
     }
 
     private void SubmitJobOpening()

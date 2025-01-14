@@ -23,10 +23,10 @@
 
     <div>
         <h3>MDEQ Job Openings</h3>
-        <QuickGrid TGridItem="Job" Items="@Context.Jobs">
+        <QuickGrid TGridItem="Job" Items="@ExternalJobs.AsQueryable()">
             <PropertyColumn Property="@(job => job.Location)" Sortable="true" />
             <PropertyColumn Property="@(job => job.Position)" Sortable="true" />
-            <PropertyColumn Property="@(job => job.EndDate)" Title="End Date" Sortable="true" />
+            <PropertyColumn Property="@(job => job.ExternalClosingDate)" Title="End Date" Sortable="true" />
             <TemplateColumn Title="Apply" Context="job">
                 <input type="checkbox" @onchange="args => ToggleCheckbox(args, job.PIN)" />
             </TemplateColumn>
@@ -36,7 +36,7 @@
 </div>
 
 @code {
-    private IEnumerable<Job> ExternalJobs { get; set; }
+    private IEnumerable<Job>? ExternalJobs { get; set; }
     List<int> Selected = new List<int>();
 
     protected override void OnInitialized()
