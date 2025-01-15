@@ -1,4 +1,5 @@
 ﻿@page "/job/{PId?}"
+@rendermode InteractiveServer
 
 @using RecruitmentManager.Models
 @using RecruitmentManager.Data
@@ -82,6 +83,15 @@
             <InputDate id="intClosingDate" @bind-Value="Model.InternalClosingDate" />
         </div>
         <div>
+            <label for="extPostStartDate">External Posting Start Date:</label>
+            <InputDate id="extPostStartDate" @bind-Value="Model.ExternalPostingStartDate" />
+        </div>
+        <div>
+            <label for="extClosingDate">External Closing Date:</label>
+            <InputDate id="extClosingDate" @bind-Value="Model.ExternalClosingDate" disabled="@disabled" />
+            <label><input type="checkbox" @onclick="() => disabled = !disabled" /> Until Filled</label>
+        </div>
+        <div>
             <button type="submit">Submit</button>
         </div>
     </EditForm>
@@ -96,6 +106,7 @@
 
     private string? AlertMessage { get; set; }
     private bool submitted = false;
+    private bool disabled = false;
     private string location = "";
 
     protected override void OnInitialized()
