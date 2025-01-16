@@ -1,0 +1,38 @@
+﻿@page "/candidates/manage"
+
+@rendermode InteractiveServer
+
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Models
+@using Services
+
+@inject HRMSService Service
+
+<h3>Candidate Submission Management</h3>
+<p>Manage Candidate submissions</p>
+
+<div>
+    <QuickGrid TGridItem="Candidate" Items="Candidates">
+        <PropertyColumn Property="@(c => c.LastName)" Title="Last Name" Sortable="true" />
+        <PropertyColumn Property="@(c => c.FirstName)" Title="First Name" Sortable="true" />
+        <PropertyColumn Property="@(c => c.Email)" />
+        <PropertyColumn Property="@(c => c.Phone)" />
+        <PropertyColumn Property="@(c => c.Resume)" Sortable="true" />
+        <PropertyColumn Property="@(c => c.EducationDegree)" Sortable="true" />
+        <PropertyColumn Property="@(c => c.Major)" Sortable="true" />
+        <PropertyColumn Property="@(c => c.DateSubmitted)" Title="Date Submitted" Sortable="true" />
+        <TemplateColumn Title="" Context="c">
+            <div class="btn-group text-nowrap" role="group">
+                <button type="button" class="btn btn-sm btn-outline-primary" title="Edit">Edit</button>
+                <button type="button" class="btn btn-sm btn-outline-danger" title="Delete">Delete</button>
+                <button type="button" class="btn btn-sm btn-outline-success" title="Submit">Submit</button>
+            </div>
+        </TemplateColumn>
+    </QuickGrid>
+</div>
+
+@code {
+    private IQueryable<Candidate> Candidates { get; set; }
+
+    protected override void OnInitialized() => Candidates = Service.GetCandidates();
+}

@@ -42,11 +42,9 @@ public class HRMSService
         return newJob;
     }
 
-    public Candidate? GetByCandidateId(int candidateId)
+   public IQueryable<Candidate> GetCandidates()
     {
-        return _context.Candidates
-            .AsNoTracking()
-            .SingleOrDefault (candidate => candidate.Id == candidateId);
+        return _context.Candidates;
     }
 
     public Candidate Create(Candidate newCandidate)
