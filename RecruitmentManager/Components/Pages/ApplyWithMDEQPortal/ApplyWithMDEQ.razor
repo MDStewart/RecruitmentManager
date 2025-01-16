@@ -56,7 +56,7 @@
         if (Selected?.Any() ?? false)
         {
             var queryString = string.Join("&", Selected.Select(pin => "pin=" + pin));
-            NavigationManager.NavigateTo("/candidate-application?" + queryString);
+            NavigationManager.NavigateTo("/apply?" + queryString);
         }
     }
 }
