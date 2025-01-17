@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using RecruitmentManager.Components;
 using RecruitmentManager.Data;
-using RecruitmentManager.Models;
 using RecruitmentManager.Services;
 
 
@@ -15,6 +13,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddSqlite<HRMSContext>(builder.Configuration.GetConnectionString("DevelopmentConnection"));
 builder.Services.AddScoped<HRMSService>();
+builder.Services.AddScoped<MailService>();
 
 //builder.Services.AddDbContext<RecruitmentManagerContext>(options =>
 //{

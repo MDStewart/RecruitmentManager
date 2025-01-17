@@ -15,6 +15,7 @@
 
 @layout CandidateLayout
 @inject HRMSService Service
+@inject MailService Mail
 
 <h3>Apply with MDEQ</h3>
 
@@ -207,15 +208,13 @@
 
     private async Task SendEmail()
     {
-        string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-        var client = new SendGridClient(apiKey);
+
         var from = new EmailAddress("mstewart@mdeq.ms.gov", "MDEQ - HR Office");
         var subject = string.Format("{0}, {1}", Model!.LastName, Model.FirstName);
         var to = new EmailAddress("mstewart@mdeq.ms.gov", "HRMS");
         var plainTextContent = string.Format("{0} {1}\n{2}\n{3}\n{4}",Model.FirstName,Model.LastName,Model.PreferredName,Model.Email,Model.Resume);
         var htmlContent = "<strong>Testing sending emails with SendGrid</strong>";
-        var message = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-        var response = await client.SendEmailAsync(message);
+        await Mail.SendEmail(from, subject, to, plainTextContent, htmlContent);
     }
 
 }
