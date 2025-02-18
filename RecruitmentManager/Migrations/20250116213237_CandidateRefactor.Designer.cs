@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecruitmentManager.Data;
 
@@ -10,9 +11,11 @@ using RecruitmentManager.Data;
 namespace RecruitmentManager.Migrations
 {
     [DbContext(typeof(HRMSContext))]
-    partial class HRMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250116213237_CandidateRefactor")]
+    partial class CandidateRefactor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -24,6 +27,9 @@ namespace RecruitmentManager.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Comment")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateSubmitted")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EducationDegree")
@@ -79,6 +85,9 @@ namespace RecruitmentManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateOnly>("EndDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateOnly?>("ExternalClosingDate")
                         .HasColumnType("TEXT");
 
@@ -99,10 +108,10 @@ namespace RecruitmentManager.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MinimumQualifications")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Office")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Position")
@@ -110,7 +119,6 @@ namespace RecruitmentManager.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PrimaryFunctions")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SpecialRequirements")
@@ -120,12 +128,15 @@ namespace RecruitmentManager.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Supervisor")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("PIN");

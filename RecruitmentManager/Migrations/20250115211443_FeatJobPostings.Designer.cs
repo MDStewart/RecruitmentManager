@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecruitmentManager.Data;
 
@@ -10,9 +11,11 @@ using RecruitmentManager.Data;
 namespace RecruitmentManager.Migrations
 {
     [DbContext(typeof(HRMSContext))]
-    partial class HRMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250115211443_FeatJobPostings")]
+    partial class FeatJobPostings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -23,50 +26,76 @@ namespace RecruitmentManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Comment")
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EducationDegree")
+                    b.Property<string>("Education")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateOnly?>("ExpectedGraduationDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("HasGraduated")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Industries")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsEmploymentEligible")
-                        .HasColumnType("INTEGER");
-
-                    b.PrimitiveCollection<string>("Jobs")
+                    b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("LastName")
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Major")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("OtherMajor")
+                    b.Property<string>("NormalizedEmail")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("NormalizedUserName")
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PreferredName")
                         .HasColumnType("TEXT");
 
                     b.Property<byte[]>("Resume")
                         .HasColumnType("BLOB");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -78,6 +107,9 @@ namespace RecruitmentManager.Migrations
                     b.Property<int>("PIN")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateOnly>("EndDate")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateOnly?>("ExternalClosingDate")
                         .HasColumnType("TEXT");
@@ -99,10 +131,10 @@ namespace RecruitmentManager.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MinimumQualifications")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Office")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Position")
@@ -110,7 +142,6 @@ namespace RecruitmentManager.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PrimaryFunctions")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SpecialRequirements")
@@ -120,12 +151,15 @@ namespace RecruitmentManager.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Supervisor")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("PIN");

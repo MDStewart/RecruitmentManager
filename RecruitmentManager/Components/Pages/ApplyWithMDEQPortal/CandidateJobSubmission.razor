@@ -1,6 +1,10 @@
-﻿@page "/candidate-application"
+﻿@page "/apply"
 @rendermode InteractiveServer
 
+@using System.Net.Mail
+@using SendGrid
+@using SendGrid.Helpers.Mail
+@using System
 @using System.Runtime.InteropServices.JavaScript
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Microsoft.EntityFrameworkCore
@@ -11,6 +15,7 @@
 
 @layout CandidateLayout
 @inject HRMSService Service
+@inject MailService Mail
 
 <h3>Apply with MDEQ</h3>
 
@@ -56,14 +61,14 @@
             <label>
                 Phone <span class="required">*</span>
             </label>
-            <InputText @bind-Value="Model.PhoneNumber" DisplayName="Phone" class="required" />
+            <InputText @bind-Value="Model.Phone" DisplayName="Phone" class="required" />
         </div>
 
         <div>
             <label>
                 Highest Level of Education Completed
             </label>
-            <InputSelect class="required" @bind-Value="Model.Education" DisplayName="Highest Level of Education">
+            <InputSelect class="required" @bind-Value="Model.EducationDegree" DisplayName="Highest Level of Education">
                 <option value="GED">GED</option>
                 <option value="High School">High School</option>
                 <option value="Associate Degree">Associate Degree</option>
@@ -83,7 +88,7 @@
         <div class="toggleInput">
             <label for="notGraduated">
                 I have not graduated
-                <input type="checkbox" name="notGraduated" id="notGraduated" value="false" @onclick="() => {hidden = !hidden;}" />
+                <InputCheckbox @bind-Value="Model.HasGraduated" @onclick="() => {hidden = !hidden;}" />
             </label>
 
             <div id="optionalContent" hidden="@hidden">
@@ -128,7 +133,7 @@
             </details>
             <label for="eligibility">
                 I am eligible for employment with the State of Mississippi.
-                <input type="checkbox" id="eligibility" value="true" @onclick="() => {disabled = !disabled;}" />
+                <InputCheckbox @bind-Value="Model.IsEmploymentEligible" @onclick="() => {disabled = !disabled;}" />
             </label>
 
         </div>
@@ -169,8 +174,8 @@
 
     protected override void OnInitialized()
     {
-        Model ??= new() { ExpectedGraduationDate = DateOnly.FromDateTime(DateTime.Now) };
-
+        var now = DateTime.Now;
+        Model ??= new() { ExpectedGraduationDate = DateOnly.FromDateTime(now) };
         EditContext = new EditContext(Model);
     }
 
@@ -186,18 +191,30 @@
         }
     }
 
-    public void SubmitCandidateApplication()
+    public async void SubmitCandidateApplication()
     {
         Service.Create(Model!);
-        AlertMessage = "Application submitted!";
+        AlertMessage = string.Format("Application submitted at {0}!", Model.DateSubmitted);
         submitted = true;
         location = "/apply-with-mdeq";
+        await SendEmail();
     }
 
     public void InvalidSubmission()
     {
         AlertMessage = "Invalid submission.";
         location = "/candidate-application";
+    }
+
+    private async Task SendEmail()
+    {
+
+        var from = new EmailAddress("mstewart@mdeq.ms.gov", "MDEQ - HR Office");
+        var subject = string.Format("{0}, {1}", Model!.LastName, Model.FirstName);
+        var to = new EmailAddress("mstewart@mdeq.ms.gov", "HRMS");
+        var plainTextContent = string.Format("{0} {1}\n{2}\n{3}\n{4}",Model.FirstName,Model.LastName,Model.PreferredName,Model.Email,Model.Resume);
+        var htmlContent = "<strong>Testing sending emails with SendGrid</strong>";
+        await Mail.SendEmail(from, subject, to, plainTextContent, htmlContent);
     }
 
 }
