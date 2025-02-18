@@ -1,7 +1,28 @@
 ﻿@page "/"
+@using Models
+@using Services
+@using Microsoft.AspNetCore.Components.QuickGrid
 
-<PageTitle>Home</PageTitle>
+@inject HRMSService Service
 
-<h1>Hello, world!</h1>
+<PageTitle>Dashboard</PageTitle>
 
-Welcome to your new app.
+<div>
+    <h2>Active Jobs</h2>
+    <QuickGrid TGridItem="Job" Items="@ActiveJobs">
+        <PropertyColumn Property="@(job => job.PIN)" Sortable="true" />
+    </QuickGrid>    
+</div>
+
+<div>
+    <h2>New Applicants</h2>
+</div>
+
+@code{
+    private IQueryable<Job>? ActiveJobs ;
+
+    protected override void OnInitialized()
+    {
+        ActiveJobs = Service.GetActiveJobs().AsQueryable<Job>();
+    }
+}

@@ -76,4 +76,9 @@ public class HRMSService
            .Where(job => !job.ExternalClosingDate.HasValue || job.ExternalClosingDate!.Value.CompareTo(today) >= 0)
            .AsEnumerable();
     }
+
+    public IEnumerable<Job> GetActiveJobs()
+    {
+        return _context.Jobs;
+    }
 }
